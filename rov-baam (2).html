@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>רוב בעם 🇮🇱 — מה רוב העם חושב?</title>
+<meta name="description" content="הצביעו על השאלה של היום וגלו אם אתם חלק מהרוב.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e1024;
+  --bg-2:#161a3a;
+  --surface:#1b1f45;
+  --surface-2:#232860;
+  --line:rgba(255,255,255,.08);
+  --text:#f4f4fb;
+  --text-dim:#a9adcf;
+  --blue:#2f7dff;
+  --blue-deep:#1c4fd6;
+  --red:#ff4d6d;
+  --red-deep:#d62b4a;
+  --gold:#ffc23c;
+  --green:#2ee6a6;
+  --radius-lg:28px;
+  --radius-md:18px;
+  --radius-sm:12px;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Heebo',sans-serif;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(47,125,255,.35), transparent 60%),
+    radial-gradient(1000px 700px at 110% 10%, rgba(255,77,109,.28), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer; border:none;}
+img{max-width:100%; display:block;}
+::selection{background:var(--gold); color:#111;}
+
+/* ---------- layout shells ---------- */
+.wrap{max-width:1080px; margin:0 auto; padding:0 20px;}
+.hide{display:none !important;}
+
+/* ---------- header ---------- */
+header.site{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter:blur(16px);
+  background:rgba(14,16,36,.72);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:1080px; margin:0 auto; padding:14px 20px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.logo{
+  font-family:'Rubik',sans-serif; font-weight:900; font-size:22px;
+  display:flex; align-items:center; gap:8px;
+}
+.logo .dot{
+  width:10px; height:10px; border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  box-shadow:0 0 14px var(--blue);
+}
+nav.main{display:flex; align-items:center; gap:8px;}
+.nav-link{
+  font-size:14px; font-weight:500; color:var(--text-dim);
+  padding:9px 14px; border-radius:999px; transition:.2s;
+  white-space:nowrap;
+}
+.nav-link:hover, .nav-link.active{background:var(--surface); color:var(--text);}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; justify-content:center;
+  padding:11px 20px; border-radius:999px; font-weight:700; font-size:14.5px;
+  transition:.18s transform,.18s box-shadow,.18s background;
+}
+.btn:active{transform:scale(.96);}
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  color:#fff; box-shadow:0 8px 24px rgba(47,125,255,.35);
+}
+.btn-primary:hover{box-shadow:0 10px 30px rgba(255,77,109,.4); transform:translateY(-2px);}
+.btn-ghost{background:var(--surface); color:var(--text); border:1px solid var(--line);}
+.btn-ghost:hover{background:var(--surface-2);}
+.burger{display:none; width:40px; height:40px; border-radius:12px; background:var(--surface); align-items:center; justify-content:center; font-size:18px;}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 20px; text-align:center;}
+.badge-eyebrow{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--surface); border:1px solid var(--line);
+  padding:6px 14px; border-radius:999px; font-size:13px; color:var(--text-dim); margin-bottom:22px;
+}
+.hero h1{
+  font-family:'Rubik',sans-serif; font-weight:900;
+  font-size:clamp(32px,6.5vw,58px); line-height:1.08; margin:0 0 16px;
+  letter-spacing:-0.5px;
+}
+.hero h1 .accent{
+  background:linear-gradient(90deg,var(--blue),var(--red));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p.sub{
+  color:var(--text-dim); font-size:clamp(15px,2vw,18px); max-width:520px; margin:0 auto 28px;
+}
+
+/* ---------- VS voting card (signature element) ---------- */
+.q-card{
+  max-width:640px; margin:0 auto 40px; position:relative;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.q-meta-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px 0;
+}
+.q-tag{font-size:12px; font-weight:700; color:var(--gold); letter-spacing:.3px;}
+.q-count{font-size:12.5px; color:var(--text-dim);}
+.q-text{
+  font-family:'Rubik',sans-serif; font-weight:800; font-size:clamp(20px,3.4vw,28px);
+  text-align:center; padding:14px 24px 22px; line-height:1.35;
+}
+.vs-zone{position:relative; display:flex; min-height:190px;}
+.vs-half{
+  flex:1; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; padding:26px 14px; overflow:hidden; transition:.25s;
+}
+.vs-half.blue{background:linear-gradient(160deg,var(--blue-deep),var(--blue));}
+.vs-half.red{background:linear-gradient(200deg,var(--red-deep),var(--red));}
+.vs-half button.opt-btn{
+  all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:8px;
+  width:100%; height:100%; padding:26px 14px; position:relative; z-index:2;
+}
+.opt-emoji{font-size:34px; filter:drop-shadow(0 4px 10px rgba(0,0,0,.3));}
+.opt-label{font-family:'Rubik',sans-serif; font-weight:800; font-size:19px; color:#fff; text-align:center;}
+.opt-img{width:100%; height:70px; object-fit:cover; border-radius:12px; margin-bottom:2px;}
+.vs-divider{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:5;
+  width:52px; height:52px; border-radius:50%; background:var(--bg);
+  border:3px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rubik',sans-serif; font-weight:900; font-size:13px; color:var(--gold);
+  box-shadow:0 0 0 6px rgba(14,16,36,.6);
+}
+.vs-half:not(.locked):hover{filter:brightness(1.12);}
+.vs-half:not(.locked):active .opt-btn{transform:scale(.97);}
+
+/* results fill */
+.vs-half.locked{cursor:default;}
+.vs-half.locked .opt-btn{cursor:default;}
+.result-fill{
+  position:absolute; inset:0; background:rgba(0,0,0,.28); z-index:1;
+  transform-origin:bottom; animation:growUp .7s cubic-bezier(.2,.9,.3,1.1) both;
+}
+@keyframes growUp{from{transform:scaleY(0);} to{transform:scaleY(1);}}
+.pct{
+  font-family:'Rubik',sans-serif; font-weight:900; font-size:30px; color:#fff; z-index:2;
+  text-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+.vs-half.winner::after{
+  content:'👑'; position:absolute; top:10px; font-size:20px; z-index:3;
+}
+.result-banner{
+  text-align:center; padding:16px 20px 6px; font-family:'Rubik',sans-serif; font-weight:800; font-size:16px;
+}
+.result-banner .win-side{color:var(--gold);}
+.share-row{display:flex; gap:10px; justify-content:center; padding:14px 20px 22px; flex-wrap:wrap;}
+.icon-btn{
+  width:44px; height:44px; border-radius:50%; background:var(--surface-2); border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; font-size:18px; transition:.2s;
+}
+.icon-btn:hover{transform:translateY(-3px); background:var(--bg-2);}
+
+/* ---------- section titles ---------- */
+.section-title{
+  font-family:'Rubik',sans-serif; font-weight:800; font-size:24px; margin:44px 0 18px;
+  display:flex; align-items:center; gap:10px;
+}
+
+/* ---------- all questions ---------- */
+.tabs{display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:20px; scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  flex:none; padding:9px 16px; border-radius:999px; background:var(--surface); border:1px solid var(--line);
+  color:var(--text-dim); font-size:14px; font-weight:600; white-space:nowrap; transition:.2s;
+}
+.tab-btn.active{background:linear-gradient(135deg,var(--blue),var(--red)); color:#fff; border-color:transparent;}
+.q-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-bottom:50px;}
+.q-mini{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:18px; transition:.2s; display:flex; flex-direction:column; gap:12px;
+}
+.q-mini:hover{transform:translateY(-4px); border-color:rgba(255,255,255,.2); box-shadow:0 14px 30px rgba(0,0,0,.35);}
+.q-mini h3{font-family:'Rubik',sans-serif; font-size:16px; font-weight:700; margin:0; line-height:1.4; min-height:44px;}
+.mini-vs{display:flex; gap:8px; font-size:13px; color:var(--text-dim);}
+.mini-opt{flex:1; background:var(--bg-2); border-radius:9px; padding:8px 10px; text-align:center;}
+.q-mini .meta{font-size:12px; color:var(--text-dim); display:flex; justify-content:space-between;}
+.empty-state{
+  text-align:center; padding:50px 20px; color:var(--text-dim); background:var(--surface);
+  border-radius:var(--radius-md); border:1px dashed var(--line);
+}
+
+/* ---------- footer ---------- */
+footer.site{border-top:1px solid var(--line); padding:30px 20px; text-align:center; color:var(--text-dim); font-size:13px; margin-top:40px;}
+footer.site a{color:var(--text-dim); text-decoration:underline;}
+
+/* ---------- admin ---------- */
+.admin-shell{min-height:100vh; background:#0b0c1a;}
+.admin-login{
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.login-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg);
+  padding:36px 28px; width:100%; max-width:380px; box-shadow:var(--shadow); text-align:center;
+}
+.login-card h2{font-family:'Rubik',sans-serif;}
+.login-card input{
+  width:100%; padding:13px 16px; border-radius:12px; border:1px solid var(--line);
+  background:var(--bg-2); color:var(--text); font-size:15px; margin:14px 0; text-align:center;
+}
+.err-msg{color:var(--red); font-size:13px; min-height:18px;}
+.admin-top{
+  display:flex; align-items:center; justify-content:space-between; padding:16px 24px;
+  background:#111327; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20;
+}
+.admin-body{max-width:1100px; margin:0 auto; padding:24px 20px 60px;}
+.admin-tabs{display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;}
+.kpi-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:30px;}
+.kpi-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); padding:18px;}
+.kpi-card .num{font-family:'Rubik',sans-serif; font-size:26px; font-weight:800;}
+.kpi-card .lbl{font-size:12.5px; color:var(--text-dim); margin-top:4px;}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); padding:20px; margin-bottom:20px;}
+.panel h3{font-family:'Rubik',sans-serif; margin-top:0;}
+table.admin-table{width:100%; border-collapse:collapse; font-size:13.5px;}
+table.admin-table th, table.admin-table td{padding:10px 8px; border-bottom:1px solid var(--line); text-align:right; vertical-align:middle;}
+table.admin-table th{color:var(--text-dim); font-weight:600; font-size:12.5px;}
+.row-actions{display:flex; gap:6px; flex-wrap:wrap;}
+.mini-btn{padding:6px 10px; border-radius:8px; font-size:12.5px; background:var(--bg-2); border:1px solid var(--line); color:var(--text);}
+.mini-btn.danger{color:var(--red);}
+.mini-btn.good{color:var(--green);}
+.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.form-grid label{display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--text-dim);}
+.form-grid input, .form-grid select{
+  padding:10px 12px; border-radius:10px; border:1px solid var(--line); background:var(--bg-2); color:var(--text); font-size:14px;
+}
+.form-grid .full{grid-column:1/-1;}
+.checks{display:flex; gap:16px; flex-wrap:wrap; margin:6px 0;}
+.checks label{flex-direction:row; align-items:center; gap:8px; font-size:13px; color:var(--text);}
+.bar-chart{display:flex; align-items:flex-end; gap:10px; height:140px; padding-top:10px;}
+.bar{flex:1; background:linear-gradient(180deg,var(--blue),var(--red)); border-radius:8px 8px 0 0; position:relative; min-height:4px;}
+.bar span{position:absolute; top:-20px; right:0; left:0; text-align:center; font-size:11px; color:var(--text-dim);}
+.bar em{position:absolute; bottom:-18px; right:0; left:0; text-align:center; font-size:10.5px; color:var(--text-dim); font-style:normal;}
+
+/* ---------- ad modal ---------- */
+.ad-modal-bg{
+  position:fixed; inset:0; background:rgba(6,7,18,.75); backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center; z-index:200; padding:16px;
+  animation:fadeIn .25s ease;
+}
+@keyframes fadeIn{from{opacity:0} to{opacity:1}}
+.ad-modal{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg);
+  max-width:400px; width:100%; overflow:hidden; box-shadow:var(--shadow); position:relative;
+}
+.ad-modal img{width:100%; max-height:320px; object-fit:cover;}
+.ad-close{
+  position:absolute; top:10px; left:10px; width:32px; height:32px; border-radius:50%;
+  background:rgba(0,0,0,.55); color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; z-index:2;
+}
+.ad-label{font-size:11px; color:var(--text-dim); padding:8px 16px 0;}
+.ad-cta{padding:10px 16px 18px;}
+
+/* toast */
+.toast{
+  position:fixed; bottom:24px; right:50%; transform:translateX(50%);
+  background:var(--surface-2); border:1px solid var(--line); padding:12px 20px; border-radius:999px;
+  font-size:13.5px; z-index:300; box-shadow:var(--shadow); opacity:0; transition:.25s;
+}
+.toast.show{opacity:1; transform:translateX(50%) translateY(-6px);}
+
+/* responsive */
+@media (max-width:640px){
+  nav.main{display:none; position:absolute; top:60px; right:0; left:0; background:var(--bg-2); flex-direction:column; padding:12px; border-bottom:1px solid var(--line);}
+  nav.main.open{display:flex;}
+  .burger{display:flex;}
+  .vs-zone{min-height:160px;}
+  .form-grid{grid-template-columns:1fr;}
+  table.admin-table{font-size:12px;}
+  .header-inner .btn-primary span.long{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   רוב בעם — client app (hash-routed SPA)
+   Persistence: window.storage (shared=true acts as the DB;
+   personal per-visitor keys track "my vote" / "my ad views")
+   ========================================================= */
+
+const ADMIN_PASSWORD = "@Aa332935535aA@";
+const SITE_ICON = "https://i.ibb.co/CpdF7KQd/Gemini-Generated-Image-o1ck0bo1ck0bo1ck-1.png";
+
+const uid = (() => {
+  let id = localStorage.getItem('rb_uid_fallback');
+  return id;
+})();
+
+// --- lightweight fallback so the app works even if window.storage is unavailable ---
+const mem = {};
+async function sGet(key, shared=false){
+  try{
+    if(window.storage){
+      const r = await window.storage.get(key, shared);
+      return r ? r.value : null;
+    }
+  }catch(e){ /* not found or unavailable */ }
+  const k=(shared?'S:':'P:')+key;
+  return mem[k] !== undefined ? mem[k] : null;
+}
+async function sSet(key, value, shared=false){
+  try{
+    if(window.storage){ await window.storage.set(key, value, shared); return; }
+  }catch(e){}
+  const k=(shared?'S:':'P:')+key;
+  mem[k]=value;
+}
+
+function uuid(){ return 'q_'+Math.random().toString(36).slice(2,9)+Date.now().toString(36); }
+function genCode(){
+  let code;
+  do{ code = String(Math.floor(10000 + Math.random()*90000)); }
+  while(DB.questions.some(q=>q.code===code));
+  return code;
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function pct(a,b){ const t=a+b; if(t===0) return [50,50]; return [Math.round(a/t*100), 100-Math.round(a/t*100)]; }
+function fmtDate(ts){ try{ return new Date(ts).toLocaleDateString('he-IL'); }catch(e){ return ''; } }
+
+let DB = { questions: [], ads: [] };
+let MY = { votes: {}, adViews: {} };
+
+async function loadDB(){
+  const qRaw = await sGet('questions', true);
+  const aRaw = await sGet('ads', true);
+  DB.questions = qRaw ? JSON.parse(qRaw) : null;
+  DB.ads = aRaw ? JSON.parse(aRaw) : [];
+  if(!DB.questions){ DB.questions = []; await saveQuestions(); }
+  let needsSave = false;
+  DB.questions.forEach(q=>{ if(!q.code){ q.code = genCode(); needsSave = true; } });
+  if(needsSave) await saveQuestions();
+  const myVotesRaw = await sGet('myVotes', false);
+  const myAdRaw = await sGet('myAdViews', false);
+  MY.votes = myVotesRaw ? JSON.parse(myVotesRaw) : {};
+  MY.adViews = myAdRaw ? JSON.parse(myAdRaw) : {};
+}
+async function saveQuestions(){ await sSet('questions', JSON.stringify(DB.questions), true); }
+async function saveAds(){ await sSet('ads', JSON.stringify(DB.ads), true); }
+async function saveMyVotes(){ await sSet('myVotes', JSON.stringify(MY.votes), false); }
+async function saveMyAdViews(){ await sSet('myAdViews', JSON.stringify(MY.adViews), false); }
+
+function getQ(id){ return DB.questions.find(q=>q.id===id); }
+function getQByCode(code){ return DB.questions.find(q=>q.code===code); }
+
+/* ---------------- toast ---------------- */
+function toast(msg){
+  let t = document.querySelector('.toast');
+  if(!t){ t=document.createElement('div'); t.className='toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ---------------- share ---------------- */
+function shareUrls(q){
+  const url = location.origin + '/' + q.code;
+  const text = encodeURIComponent(`${q.text} — הצביעו ב"רוב בעם"! 🗳️`);
+  return {
+    wa: `https://wa.me/?text=${text}%20${encodeURIComponent(url)}`,
+    fb: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    x: `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(url)}`,
+    url
+  };
+}
+function copyLink(url){
+  navigator.clipboard?.writeText(url).then(()=>toast('הקישור הועתק ✅')).catch(()=>toast('לא ניתן להעתיק'));
+}
+function doShare(url, text){
+  if(navigator.share){
+    navigator.share({title:'רוב בעם', text, url}).catch(()=>{});
+  } else {
+    copyLink(url);
+  }
+}
+window.doShare = doShare;
+function goToNextQuestion(currentId){
+  const active = DB.questions.filter(q=>q.active);
+  if(!active.length) return;
+  const idx = active.findIndex(q=>q.id===currentId);
+  const next = active[(idx+1) % active.length];
+  location.hash = '#/q/' + next.code;
+}
+window.goToNextQuestion = goToNextQuestion;
+function goToPrevQuestion(currentId){
+  const active = DB.questions.filter(q=>q.active);
+  if(!active.length) return;
+  const idx = active.findIndex(q=>q.id===currentId);
+  const prev = active[(idx-1+active.length) % active.length];
+  location.hash = '#/q/' + prev.code;
+}
+window.goToPrevQuestion = goToPrevQuestion;
+
+/* ---------------- header / shell ---------------- */
+function shellHeader(active){
+  return `
+  <header class="site">
+    <div class="header-inner">
+      <a href="#/" class="logo"><span class="dot"></span> רוב בעם</a>
+    </div>
+  </header>`;
+}
+function shellFooter(){
+  return `<footer class="site">
+    <div class="wrap">
+      © ${new Date().getFullYear()} רוב בעם 🇮🇱 — האתר הישראלי שמגלה מה כולם חושבים.
+    </div>
+  </footer>`;
+}
+function scrollToToday(){
+  setTimeout(()=>{ document.getElementById('todayCard')?.scrollIntoView({behavior:'smooth', block:'center'}); }, 50);
+}
+window.scrollToToday = scrollToToday;
+
+/* ---------------- voting card component ---------------- */
+function questionCardHTML(q, opts={}){
+  const voted = MY.votes[q.id];
+  const [pA,pB] = pct(q.votesA, q.votesB);
+  const total = q.votesA + q.votesB;
+  const winner = q.votesA===q.votesB ? null : (q.votesA>q.votesB ? 'A':'B');
+  const locked = !!voted || opts.forceResults;
+  const activeList = DB.questions.filter(x=>x.active);
+  const idxInActive = activeList.findIndex(x=>x.id===q.id);
+  const hasPrev = idxInActive > 0;
+  const hasNext = q.active && activeList.length > 1;
+  return `
+  <div class="q-card" ${opts.id?`id="${opts.id}"`:''} data-qid="${q.id}">
+    <div class="q-meta-row">
+      <span class="q-tag">${q.active ? '🗳️ שאלה פעילה' : 'הסתיימה'}</span>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="q-count">${total.toLocaleString('he-IL')} הצבעות</span>
+        <button class="icon-btn" style="width:34px; height:34px; font-size:15px;" title="שיתוף השאלה" onclick='doShare(${JSON.stringify(shareUrls(q).url)}, ${JSON.stringify(q.text)})'>🔗</button>
+      </div>
+    </div>
+    <div class="q-text">${escapeHtml(q.text)}</div>
+    <div class="vs-zone">
+      <div class="vs-half blue ${locked?'locked':''} ${winner==='A'&&locked?'winner':''}" data-side="A">
+        ${locked ? `<div class="result-fill" style="background:rgba(0,0,0,${0.15+ (100-pA)/400})"></div>` : ''}
+        <button class="opt-btn" ${locked?'disabled':''} onclick="castVote('${q.id}','A')">
+          ${q.imgA ? `<img class="opt-img" src="${q.imgA}" alt="">` : `<span class="opt-emoji">🟦</span>`}
+          ${locked ? `<span class="pct">${pA}%</span>` : ''}
+          <span class="opt-label">${escapeHtml(q.optA)}</span>
+        </button>
+      </div>
+      <div class="vs-divider">VS</div>
+      <div class="vs-half red ${locked?'locked':''} ${winner==='B'&&locked?'winner':''}" data-side="B">
+        ${locked ? `<div class="result-fill" style="background:rgba(0,0,0,${0.15+ (100-pB)/400})"></div>` : ''}
+        <button class="opt-btn" ${locked?'disabled':''} onclick="castVote('${q.id}','B')">
+          ${q.imgB ? `<img class="opt-img" src="${q.imgB}" alt="">` : `<span class="opt-emoji">🟥</span>`}
+          ${locked ? `<span class="pct">${pB}%</span>` : ''}
+          <span class="opt-label">${escapeHtml(q.optB)}</span>
+        </button>
+      </div>
+    </div>
+    ${locked ? `<div class="result-banner">${winner ? `הרוב בחר ב<span class="win-side">${escapeHtml(winner==='A'?q.optA:q.optB)}</span> 👑` : 'תיקו מושלם! 🤝'}</div>` : ''}
+    ${locked ? `
+    <div class="share-row">
+      ${hasPrev ? `<button class="btn btn-ghost" onclick="goToPrevQuestion('${q.id}')">➡️ השאלה הקודמת</button>` : ''}
+      ${hasNext ? `<button class="btn btn-primary" onclick="goToNextQuestion('${q.id}')">השאלה הבאה ⬅️</button>` : ''}
+    </div>` : ''}
+  </div>`;
+}
+
+async function castVote(qid, side){
+  if(MY.votes[qid]) return;
+  const q = getQ(qid);
+  if(!q || !q.active) return;
+  if(side==='A') q.votesA++; else q.votesB++;
+  MY.votes[qid] = side;
+  await Promise.all([saveQuestions(), saveMyVotes()]);
+  render();
+  toast('ההצבעה שלך נספרה! 🗳️');
+}
+window.castVote = castVote;
+window.copyLink = copyLink;
+
+/* ---------------- pages ---------------- */
+function pageHome(){
+  const current = [...DB.questions].filter(q=>q.active).sort((a,b)=>(b.order??b.createdAt)-(a.order??a.createdAt))[0];
+  return `
+  ${shellHeader('home')}
+  <main class="wrap">
+    <section class="hero">
+      <div class="badge-eyebrow">🔥 האתר הישראלי הכי ויראלי להצבעות</div>
+      <h1>מה <span class="accent">רוב העם</span> חושב? 🇮🇱</h1>
+      <p class="sub">הצביעו, גלו מה הישראלים חושבים וגלו אם אתם חלק מהרוב.</p>
+      <a href="#" class="btn btn-primary" onclick="scrollToToday(); return false;">🗳️ בואו להצביע</a>
+    </section>
+    ${current ? questionCardHTML(current, {id:'todayCard'}) : `<div class="empty-state">אין כרגע שאלה פעילה — חזרו בקרוב!</div>`}
+  </main>
+  ${shellFooter()}
+  `;
+}
+
+
+function pageQuestion(code){
+  const q = getQByCode(code);
+  if(!q){
+    return `${shellHeader('')}<main class="wrap"><div class="empty-state" style="margin-top:60px;">השאלה לא נמצאה 🤔<br><br><a class="btn btn-primary" href="#/">לדף הבית</a></div></main>${shellFooter()}`;
+  }
+  document.title = `${q.text} — רוב בעם`;
+  setMeta('description', `${q.text} | ${q.optA} או ${q.optB}? הצביעו וגלו מה רוב העם חושב.`);
+  setMeta('og:title', `${q.text} — רוב בעם 🇮🇱`, true);
+  setMeta('og:description', `${q.optA} או ${q.optB}? הצטרפו להצבעה!`, true);
+  setMeta('og:image', SITE_ICON, true);
+  return `
+  ${shellHeader('')}
+  <main class="wrap">
+    <div style="margin-top:24px;">${questionCardHTML(q)}</div>
+  </main>
+  ${shellFooter()}
+  `;
+}
+function setMeta(name, content, isProp){
+  const attr = isProp ? 'property' : 'name';
+  let el = document.querySelector(`meta[${attr}="${name}"]`);
+  if(!el){ el = document.createElement('meta'); el.setAttribute(attr,name); document.head.appendChild(el); }
+  el.setAttribute('content', content);
+}
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+let adminAuthed = sessionStorage.getItem('rb_admin')==='1';
+let adminTab = 'stats';
+
+function pageAdmin(){
+  if(!adminAuthed) return pageAdminLogin();
+  return `
+  <div class="admin-shell">
+    <div class="admin-top">
+      <div class="logo">🛠️ ניהול רוב בעם</div>
+      <div style="display:flex; gap:10px;">
+        <a class="btn btn-ghost" href="${/\/admin\/?$/.test(location.pathname) ? location.origin+'/' : '#/'}">👀 צפייה באתר</a>
+        <button class="btn btn-ghost" onclick="adminLogout()">התנתקות</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <div class="admin-tabs">
+        ${adminTabBtn('stats','📊 סטטיסטיקות')}
+        ${adminTabBtn('questions','🗳️ ניהול שאלות')}
+        ${adminTabBtn('ads','📢 ניהול פרסומות')}
+      </div>
+      <div id="adminContent">${adminTab==='stats'?adminStats():adminTab==='questions'?adminQuestions():adminAds()}</div>
+    </div>
+  </div>`;
+}
+function adminTabBtn(key,label){
+  return `<button class="tab-btn ${adminTab===key?'active':''}" onclick="setAdminTab('${key}')">${label}</button>`;
+}
+function setAdminTab(k){ adminTab=k; render(); }
+window.setAdminTab = setAdminTab;
+
+function pageAdminLogin(){
+  return `
+  <div class="admin-login">
+    <div class="login-card">
+      <div style="font-size:32px; margin-bottom:8px;">🔐</div>
+      <h2>כניסת מנהל</h2>
+      <p style="color:var(--text-dim); font-size:13.5px;">הזינו סיסמה כדי להיכנס לפאנל הניהול</p>
+      <input type="password" id="adminPass" placeholder="סיסמה" onkeydown="if(event.key==='Enter')tryAdminLogin()">
+      <div class="err-msg" id="adminErr"></div>
+      <button class="btn btn-primary" style="width:100%; padding:13px;" onclick="tryAdminLogin()">כניסה</button>
+      <div style="margin-top:16px;"><a href="#/" style="color:var(--text-dim); font-size:13px;">← חזרה לאתר</a></div>
+    </div>
+  </div>`;
+}
+function tryAdminLogin(){
+  const val = document.getElementById('adminPass').value;
+  if(val === ADMIN_PASSWORD){
+    adminAuthed = true;
+    sessionStorage.setItem('rb_admin','1');
+    render();
+  } else {
+    document.getElementById('adminErr').textContent = 'סיסמה שגויה, נסו שוב';
+  }
+}
+function adminLogout(){
+  adminAuthed=false; sessionStorage.removeItem('rb_admin');
+  if(/\/admin\/?$/.test(location.pathname)){ location.href = location.origin + '/'; }
+  else { location.hash='#/'; route(); }
+}
+window.tryAdminLogin = tryAdminLogin;
+window.adminLogout = adminLogout;
+
+function adminStats(){
+  const totalQ = DB.questions.length;
+  const totalVotes = DB.questions.reduce((s,q)=>s+q.votesA+q.votesB,0);
+  const activeQ = DB.questions.filter(q=>q.active).length;
+  const top = [...DB.questions].sort((a,b)=>(b.votesA+b.votesB)-(a.votesA+a.votesB))[0];
+  const totalAds = DB.ads.length;
+  const totalAdViews = DB.ads.reduce((s,a)=>s+(a.views||0),0);
+  const totalAdClicks = DB.ads.reduce((s,a)=>s+(a.clicks||0),0);
+  const max = Math.max(1, ...DB.questions.map(q=>q.votesA+q.votesB));
+  return `
+    <div class="kpi-grid">
+      ${kpi(totalQ,'סה״כ שאלות')}
+      ${kpi(activeQ,'שאלות פעילות')}
+      ${kpi(totalVotes.toLocaleString('he-IL'),'סה״כ הצבעות')}
+      ${kpi(totalAds,'פרסומות פעילות/כולל')}
+      ${kpi(totalAdViews.toLocaleString('he-IL'),'צפיות בפרסומות')}
+      ${kpi(totalAdClicks.toLocaleString('he-IL'),'קליקים על פרסומות')}
+    </div>
+    <div class="panel">
+      <h3>🏆 השאלה הפופולרית ביותר</h3>
+      <p style="color:var(--text-dim); margin:0;">${top ? `${escapeHtml(top.text)} — ${(top.votesA+top.votesB).toLocaleString('he-IL')} הצבעות` : 'אין נתונים'}</p>
+    </div>
+    <div class="panel">
+      <h3>📊 הצבעות לפי שאלה</h3>
+      <div class="bar-chart">
+        ${DB.questions.slice(0,8).map(q=>{
+          const v=q.votesA+q.votesB; const h = Math.max(4, Math.round(v/max*120));
+          return `<div class="bar" style="height:${h}px;"><span>${v}</span><em>${escapeHtml(q.text.slice(0,10))}</em></div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+function kpi(num,lbl){ return `<div class="kpi-card"><div class="num">${num}</div><div class="lbl">${lbl}</div></div>`; }
+
+function adminQuestions(){
+  return `
+    <div class="panel">
+      <h3>➕ הוספת שאלה חדשה</h3>
+      <div class="form-grid">
+        <label class="full">טקסט השאלה <input id="nq-text" placeholder='למשל: "כלב או חתול?"'></label>
+        <label>אפשרות א׳ <input id="nq-a" placeholder="למשל: כלב 🐶"></label>
+        <label>אפשרות ב׳ <input id="nq-b" placeholder="למשל: חתול 🐱"></label>
+        <label>תמונה לאפשרות א׳ (קישור, אופציונלי) <input id="nq-imga" placeholder="https://..."></label>
+        <label>תמונה לאפשרות ב׳ (קישור, אופציונלי) <input id="nq-imgb" placeholder="https://..."></label>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" id="nq-active" checked> פעיל (יוצג באתר לציבור)</label>
+      </div>
+      <p style="color:var(--text-dim); font-size:12.5px; margin-top:-4px;">השאלה הפעילה האחרונה שנוספה תוצג אוטומטית בדף הבית.</p>
+      <button class="btn btn-primary" onclick="addQuestion()">הוספת שאלה</button>
+    </div>
+    <div class="panel">
+      <h3>רשימת שאלות (${DB.questions.length})</h3>
+      <div style="overflow-x:auto;">
+      <table class="admin-table">
+        <thead><tr><th>שאלה</th><th>קישור</th><th>הצבעות</th><th>סטטוס</th><th>פעולות</th></tr></thead>
+        <tbody>
+          ${DB.questions.map(q=>`
+            <tr>
+              <td style="max-width:220px;">${escapeHtml(q.text)}<br><span style="color:var(--text-dim); font-size:11.5px;">${escapeHtml(q.optA)} / ${escapeHtml(q.optB)}</span></td>
+              <td><button class="mini-btn" onclick="copyLink(${JSON.stringify(shareUrls(q).url)})">🔗 ${q.code}</button></td>
+              <td>${q.votesA+q.votesB}</td>
+              <td>${q.active?'🟢 פעיל':'🔴 כבוי'}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="mini-btn" onclick="editQuestion('${q.id}')">✏️ עריכה</button>
+                  <button class="mini-btn ${q.active?'danger':'good'}" onclick="toggleActive('${q.id}')">${q.active?'⏸ השבתה':'▶️ הפעלה'}</button>
+                  <button class="mini-btn danger" onclick="deleteQuestion('${q.id}')">🗑️ מחיקה</button>
+                </div>
+              </td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>⚠️ איפוס מלא</h3>
+      <p style="color:var(--text-dim); font-size:13px;">מחיקת כל השאלות באתר לצמיתות (לא ניתן לשחזור). שימושי אם נשארו נתוני בדיקה ורוצים להתחיל אך ורק עם שאלות אמיתיות.</p>
+      <button class="mini-btn danger" onclick="resetAllQuestions()">🗑️ מחיקת כל השאלות</button>
+    </div>
+  `;
+}
+async function resetAllQuestions(){
+  if(!confirm('בטוח? כל השאלות והתוצאות יימחקו לצמיתות.')) return;
+  DB.questions = [];
+  await saveQuestions();
+  toast('כל השאלות נמחקו — האתר ריק ומוכן לנתונים אמיתיים');
+  render();
+}
+window.resetAllQuestions = resetAllQuestions;
+async function addQuestion(){
+  const text = document.getElementById('nq-text').value.trim();
+  const a = document.getElementById('nq-a').value.trim();
+  const b = document.getElementById('nq-b').value.trim();
+  if(!text || !a || !b){ toast('יש למלא שאלה ושתי אפשרויות'); return; }
+  const q = {
+    id: uuid(), code: genCode(), text, optA:a, optB:b,
+    imgA: document.getElementById('nq-imga').value.trim(),
+    imgB: document.getElementById('nq-imgb').value.trim(),
+    votesA:0, votesB:0,
+    active: document.getElementById('nq-active').checked,
+    createdAt: Date.now(), order: Date.now()
+  };
+  DB.questions.unshift(q);
+  await saveQuestions();
+  toast('השאלה נוספה בהצלחה ✅');
+  render();
+}
+async function toggleActive(id){ const q=getQ(id); q.active=!q.active; await saveQuestions(); render(); }
+async function deleteQuestion(id){
+  if(!confirm('למחוק את השאלה?')) return;
+  DB.questions = DB.questions.filter(q=>q.id!==id);
+  await saveQuestions(); render();
+}
+function editQuestion(id){
+  const q = getQ(id);
+  const newText = prompt('טקסט השאלה:', q.text); if(newText===null) return;
+  const newA = prompt('אפשרות א׳:', q.optA); if(newA===null) return;
+  const newB = prompt('אפשרות ב׳:', q.optB); if(newB===null) return;
+  q.text=newText.trim()||q.text; q.optA=newA.trim()||q.optA; q.optB=newB.trim()||q.optB;
+  saveQuestions().then(render);
+  toast('השאלה עודכנה');
+}
+window.addQuestion=addQuestion; window.toggleActive=toggleActive;
+window.deleteQuestion=deleteQuestion; window.editQuestion=editQuestion;
+
+function adminAds(){
+  return `
+    <div class="panel">
+      <h3>➕ הוספת פרסומת</h3>
+      <div class="form-grid">
+        <label class="full">קישור לתמונה / GIF <input id="ad-img" placeholder="https://..."></label>
+        <label class="full">קישור יעד (בעת קליק) <input id="ad-link" placeholder="https://..."></label>
+        <label>מקסימום צפיות כולל <input id="ad-max" type="number" value="10000"></label>
+        <label>מקסימום צפיות למשתמש <input id="ad-maxuser" type="number" value="3"></label>
+      </div>
+      <div class="checks"><label><input type="checkbox" id="ad-active" checked> פעילה</label></div>
+      <button class="btn btn-primary" onclick="addAd()">הוספת פרסומת</button>
+    </div>
+    <div class="panel">
+      <h3>פרסומות (${DB.ads.length})</h3>
+      <div style="overflow-x:auto;">
+      <table class="admin-table">
+        <thead><tr><th>תצוגה</th><th>צפיות</th><th>קליקים</th><th>CTR</th><th>נותרו</th><th>סטטוס</th><th>פעולות</th></tr></thead>
+        <tbody>
+          ${DB.ads.length===0 ? `<tr><td colspan="7" style="text-align:center; color:var(--text-dim);">אין פרסומות עדיין</td></tr>` :
+          DB.ads.map(ad=>{
+            const ctr = ad.views ? ((ad.clicks/ad.views)*100).toFixed(1) : '0.0';
+            const remaining = Math.max(0, (ad.maxViews||0)-(ad.views||0));
+            return `<tr>
+              <td>${ad.img?`<img src="${ad.img}" style="width:60px;height:40px;object-fit:cover;border-radius:6px;">`:'—'}</td>
+              <td>${ad.views||0}</td>
+              <td>${ad.clicks||0}</td>
+              <td>${ctr}%</td>
+              <td>${remaining}</td>
+              <td>${ad.active?'🟢':'🔴'}</td>
+              <td><div class="row-actions">
+                <button class="mini-btn ${ad.active?'danger':'good'}" onclick="toggleAd('${ad.id}')">${ad.active?'השבתה':'הפעלה'}</button>
+                <button class="mini-btn danger" onclick="deleteAd('${ad.id}')">🗑️ מחיקה</button>
+              </div></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+      </div>
+    </div>
+  `;
+}
+async function addAd(){
+  const img = document.getElementById('ad-img').value.trim();
+  const link = document.getElementById('ad-link').value.trim();
+  if(!img || !link){ toast('יש למלא תמונה וקישור יעד'); return; }
+  DB.ads.unshift({
+    id: uuid(), img, link,
+    maxViews: parseInt(document.getElementById('ad-max').value)||0,
+    maxViewsPerUser: parseInt(document.getElementById('ad-maxuser').value)||0,
+    active: document.getElementById('ad-active').checked,
+    views:0, clicks:0, uniqueViews:0, createdAt: Date.now()
+  });
+  await saveAds(); toast('הפרסומת נוספה ✅'); render();
+}
+async function toggleAd(id){ const ad=DB.ads.find(a=>a.id===id); ad.active=!ad.active; await saveAds(); render(); }
+async function deleteAd(id){ if(!confirm('למחוק את הפרסומת?'))return; DB.ads=DB.ads.filter(a=>a.id!==id); await saveAds(); render(); }
+window.addAd=addAd; window.toggleAd=toggleAd; window.deleteAd=deleteAd;
+
+/* =========================================================
+   ad modal — shown once per page load (site entry / refresh)
+   ========================================================= */
+async function maybeShowAd(){
+  const eligible = DB.ads.filter(a=>a.active && (a.views||0) < (a.maxViews||Infinity) && (MY.adViews[a.id]||0) < (a.maxViewsPerUser||Infinity));
+  if(!eligible.length) return;
+  const ad = eligible[Math.floor(Math.random()*eligible.length)];
+  ad.views = (ad.views||0)+1;
+  MY.adViews[ad.id] = (MY.adViews[ad.id]||0)+1;
+  await Promise.all([saveAds(), saveMyAdViews()]);
+  const bg = document.createElement('div');
+  bg.className = 'ad-modal-bg';
+  bg.innerHTML = `
+    <div class="ad-modal">
+      <button class="ad-close" onclick="this.closest('.ad-modal-bg').remove()">✕</button>
+      <a href="${ad.link}" target="_blank" rel="noopener" onclick="adClick('${ad.id}')">
+        <img src="${ad.img}" alt="פרסומת">
+      </a>
+      <div class="ad-label">פרסומת</div>
+      <div class="ad-cta"><a class="btn btn-primary" style="width:100%;" href="${ad.link}" target="_blank" rel="noopener" onclick="adClick('${ad.id}')">למעבר לפרסומת →</a></div>
+    </div>`;
+  document.body.appendChild(bg);
+  bg.addEventListener('click', e=>{ if(e.target===bg) bg.remove(); });
+}
+async function adClick(id){ const ad=DB.ads.find(a=>a.id===id); if(ad){ ad.clicks=(ad.clicks||0)+1; await saveAds(); } }
+window.adClick = adClick;
+
+/* ---------------- router ---------------- */
+function route(){
+  const hash = location.hash || '#/';
+  const app = document.getElementById('app');
+  // real domain access: yourdomain.com/admin
+  const pathIsAdmin = /\/admin\/?$/.test(location.pathname);
+  if(pathIsAdmin || hash.startsWith('#/admin')){ app.innerHTML = pageAdmin(); return; }
+  // real domain access: yourdomain.com/48213 (5-digit question code)
+  const pathCodeMatch = location.pathname.match(/^\/(\d{5})\/?$/);
+  if(pathCodeMatch){ app.innerHTML = pageQuestion(pathCodeMatch[1]); window.scrollTo(0,0); return; }
+  if(hash.startsWith('#/q/')){ app.innerHTML = pageQuestion(hash.slice(4)); window.scrollTo(0,0); return; }
+  app.innerHTML = pageHome(); window.scrollTo(0,0);
+}
+function render(){ route(); }
+window.addEventListener('hashchange', route);
+
+/* ---------------- boot ---------------- */
+(async function boot(){
+  await loadDB();
+  route();
+  maybeShowAd();
+})();
+</script>
+</body>
+</html>
